@@ -1,0 +1,19 @@
+robots.txt is an extremely simply format, but it still needs some parser loving. This class will normalise robots.txt entries for you.
+
+USAGE
+-----
+
+With the following robots.txt:
+
+User-agent: *
+Disallow: /logs
+
+User-agent: Google
+Disallow: /admin
+
+# Also accepts a local file
+rp = RobotsParser.new("http://something.com/robots.txt")
+
+rp.user_agents(:google) # returns ["/logs", "/admin"]
+
+rp.user_agents(:google, { :exclude_star => true }) # returns ["/admin"]
