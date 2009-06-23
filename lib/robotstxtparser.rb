@@ -16,7 +16,6 @@ class RobotsTxtParser
     @user_agents = Hash.new
 
     parse(raw_data)
-
   end
 
   def parse(raw_data)
@@ -30,6 +29,16 @@ class RobotsTxtParser
 	@user_agents[current_agent] = Array.new unless @user_agents[current_agent]
         @user_agents[current_agent].push line.gsub("Disallow:", "").strip
       end
-    end    
+    end
+
+    add_wildcard_records 
+  end
+
+  def add_wildcard_records
+    if @user_agents.has_key?('*')
+      @user_agents.each do |agent, records|
+        @user_agents[agent] = records + @user_agents['*']
+      end
+    end
   end
 end

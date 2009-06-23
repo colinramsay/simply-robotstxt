@@ -27,11 +27,13 @@ describe "RobotsTxtParser" do
   end
 
   it "should parse disallows" do
+    @p.user_agents['*'].should include('/logs')
     @p.user_agents['Google'].should include('/google-dir')
     @p.user_agents['Yahoo'].should include('/yahoo-dir')
   end
 
   it "should include wildcard disallows" do
-    pending("implement wildcard inclusion")
+    @p.user_agents['Yahoo'].should include('/logs')
+    @p.user_agents['Google'].should include('/logs')
   end
 end
