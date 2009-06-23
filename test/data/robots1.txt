@@ -1,0 +1,9 @@
+User Agent: *
+Disallow: /logs
+
+User Agent: Google
+Disallow: /google-dir
+
+User Agent: Yahoo
+Disallow: /yahoo-dir
+

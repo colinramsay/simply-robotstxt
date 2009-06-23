@@ -14,6 +14,6 @@ Disallow: /admin
 # Also accepts a local file
 rp = RobotsParser.new("http://something.com/robots.txt")
 
-rp.user_agents(:google) # returns ["/logs", "/admin"]
-
-rp.user_agents(:google, { :exclude_star => true }) # returns ["/admin"]
+# WILDCARD NOT YET IMPLEMENTED!!!!
+rp.user_agents('Google') # returns ["/logs", "/admin"]
+rp.user_agents('Google', { :exclude_wildcard => true }) # returns ["/admin"]
