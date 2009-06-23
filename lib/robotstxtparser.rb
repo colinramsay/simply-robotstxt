@@ -1,0 +1,35 @@
+require 'open-uri'
+
+class RobotsTxtParser
+
+  attr_reader :user_agents
+
+  def initialize(path)
+    if path.include?("://")
+      raw_data = open(path)
+    else
+      raw_data = File.open(path)
+    end
+
+    return unless raw_data
+
+    @user_agents = Hash.new
+
+    parse(raw_data)
+
+  end
+
+  def parse(raw_data)
+    current_agent = nil
+
+    raw_data.each_line do |line|
+
+      if line.match(/^User Agent:/)
+        current_agent = line.gsub("User Agent:","").strip
+      elsif line.match(/^Disallow:/)
+	@user_agents[current_agent] = Array.new unless @user_agents[current_agent]
+        @user_agents[current_agent].push line.gsub("Disallow:", "").strip
+      end
+    end    
+  end
+end
