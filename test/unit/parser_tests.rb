@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'mocha'
 require File.dirname(__FILE__) + '/../../lib/robotstxtparser'
 
 describe "RobotsTxtParser init" do
@@ -6,6 +7,10 @@ describe "RobotsTxtParser init" do
     filename = File.dirname(__FILE__) + '/../data/robots1.txt'
     File.should_receive(:open).with(filename)
     RobotsTxtParser.new(filename)
+  end
+
+  it "should not fail with missing file" do
+    RobotsTxtParser.new("omg")
   end
 
   it "should use Uri.open for urls" do

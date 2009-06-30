@@ -8,12 +8,15 @@ class RobotsTxtParser
     if path.include?("://")
       raw_data = open(path)
     else
-      raw_data = File.open(path)
+      begin
+        raw_data = File.open(path)
+      rescue
+      end
     end
 
-    return unless raw_data
-
     @user_agents = Hash.new
+
+    return unless raw_data
 
     parse(raw_data)
   end
