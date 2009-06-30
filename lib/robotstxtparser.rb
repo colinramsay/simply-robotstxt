@@ -5,13 +5,13 @@ class RobotsTxtParser
   attr_reader :user_agents
 
   def initialize(path)
-    if path.include?("://")
-      raw_data = open(path)
-    else
-      begin
-        raw_data = File.open(path)
-      rescue
+    begin
+      if path.include?("://")
+        raw_data = open(path)
+      else
+          raw_data = File.open(path)
       end
+    rescue
     end
 
     @user_agents = Hash.new
