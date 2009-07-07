@@ -12,6 +12,7 @@ class RobotsTxtParser
           raw_data = File.open(path)
       end
     rescue
+      raw_data = nil
     end
 
     @user_agents = Hash.new
