@@ -4,7 +4,7 @@ class RobotsTxtParser
 
   attr_reader :user_agents
 
-  def initialize(path)
+  def read(path)
     begin
       if path.include?("://")
         raw_data = open(path)

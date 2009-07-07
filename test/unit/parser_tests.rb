@@ -6,24 +6,30 @@ describe "RobotsTxtParser init" do
   it "should use file.open for files" do
     filename = File.dirname(__FILE__) + '/../data/robots1.txt'
     File.should_receive(:open).with(filename)
-    RobotsTxtParser.new(filename)
+    p = RobotsTxtParser.new()
+    p.read(filename)
   end
 
   it "should not fail with missing file" do
-    RobotsTxtParser.new("omg")
+    p = RobotsTxtParser.new()
+    p.read("omg")
   end
 
   it "should use Uri.open for urls" do
     address = "http://google.com/"
     OpenURI.should_receive(:open_uri).with(URI.parse(address))
-    RobotsTxtParser.new(address)
+    p = RobotsTxtParser.new()
+    p.read(address)
   end
 end
 
 describe "RobotsTxtParser" do
   before do
     path = File.dirname(__FILE__) + '/../data/robots1.txt'
-    @p = RobotsTxtParser.new(path)
+
+    #@p.should_receive(:open).with("http://www.google.com").and_raise(SocketError)
+    @p = RobotsTxtParser.new()
+    @p.read(path)
   end
 
   it "should parse user agents" do

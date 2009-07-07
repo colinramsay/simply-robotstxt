@@ -16,6 +16,7 @@ Use it like this:
 require 'robotstxtparser'
 
 # Also accepts a local file
-rp = RobotsTxtParser.new("http://something.com/robots.txt")
+rp = RobotsTxtParser.new()
+rp.read("http://something.com/robots.txt")
 
 rp.user_agents('Google') # returns ["/logs", "/admin"]
