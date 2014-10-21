@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class RobotsTxtParser
-  @@user_agents
+  attr_accessor :user_agents
   attr_accessor :sitemaps
 
   def read(path)
@@ -15,7 +15,7 @@ class RobotsTxtParser
       raw_data = nil
     end
 
-    @@user_agents = Hash.new
+    @user_agents = Hash.new
     @sitemaps = Array.new
 
     return if raw_data == nil
@@ -30,8 +30,8 @@ class RobotsTxtParser
       if line.match(/^user agent:/i) || line.match(/^user-agent:/i)
         current_agent = line[line.index(":") + 1, line.length].strip
       elsif line.match(/^disallow:/i)
-        @@user_agents[current_agent] = Array.new if @@user_agents[current_agent] == nil
-        @@user_agents[current_agent].push line.gsub(/^disallow:/i, "").strip
+        @user_agents[current_agent] = Array.new if @user_agents[current_agent] == nil
+        @user_agents[current_agent].push line.gsub(/^disallow:/i, "").strip
       elsif line.match(/^sitemap:/i)
         @sitemaps.push line.gsub(/^sitemap:/i, "").strip
       end
@@ -41,18 +41,18 @@ class RobotsTxtParser
   end
 
   def add_wildcard_records
-    if @@user_agents.has_key?('*')
-      @@user_agents.each do |agent, records|
-        @@user_agents[agent] = records + @@user_agents['*']
+    if @user_agents.has_key?('*')
+      @user_agents.each do |agent, records|
+        @user_agents[agent] = records + @user_agents['*']
       end
     end
   end
 
-  def user_agents(agent)
-    unless @@user_agents[agent] == nil
-      return @@user_agents[agent]
+  def user_agent(agent)
+    unless @user_agents[agent] == nil
+      return @user_agents[agent]
     else
-      return @@user_agents["*"]
+      return @user_agents["*"]
     end
   end
 end
