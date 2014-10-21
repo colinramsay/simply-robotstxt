@@ -21,5 +21,7 @@ require 'robotstxtparser'
 rp = RobotsTxtParser.new()
 rp.read("http://something.com/robots.txt")
 
-rp.user_agents('Google') # returns ["/logs", "/admin"]
+rp.user_agent('Google') # returns ["/logs", "/admin"]
+rp.user_agent('Autobot') # returns ["/logs"]
+
 rp.sitemaps # returns ["http://something.com/sitemap.xml"]
