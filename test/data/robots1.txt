@@ -7,3 +7,4 @@ Disallow: /google-dir
 User Agent: Yahoo
 Disallow: /yahoo-dir
 
+Sitemap: http://something.com/sitemap.xml
