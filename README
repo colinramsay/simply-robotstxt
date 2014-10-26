@@ -11,6 +11,8 @@ Disallow: /logs
 User-agent: Google
 Disallow: /admin
 
+Sitemap: http://something.com/sitemap.xml
+
 Use it like this:
 
 require 'robotstxtparser'
@@ -19,4 +21,7 @@ require 'robotstxtparser'
 rp = RobotsTxtParser.new()
 rp.read("http://something.com/robots.txt")
 
-rp.user_agents('Google') # returns ["/logs", "/admin"]
+rp.user_agent('Google') # returns ["/logs", "/admin"]
+rp.user_agent('Autobot') # returns ["/logs"]
+
+rp.sitemaps # returns ["http://something.com/sitemap.xml"]

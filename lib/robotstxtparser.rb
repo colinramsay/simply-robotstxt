@@ -1,23 +1,24 @@
 require 'open-uri'
 
 class RobotsTxtParser
-
-  attr_reader :user_agents
+  attr_accessor :user_agents
+  attr_accessor :sitemaps
 
   def read(path)
     begin
       if path.include?("://")
         raw_data = open(path)
       else
-          raw_data = File.open(path)
+        raw_data = File.open(path)
       end
     rescue
       raw_data = nil
     end
 
     @user_agents = Hash.new
+    @sitemaps = Array.new
 
-    return unless raw_data
+    return if raw_data == nil
 
     parse(raw_data)
   end
@@ -26,12 +27,13 @@ class RobotsTxtParser
     current_agent = nil
 
     raw_data.each_line do |line|
-
-      if line.match(/^User Agent:/)
-        current_agent = line.gsub("User Agent:","").strip
-      elsif line.match(/^Disallow:/)
-	@user_agents[current_agent] = Array.new unless @user_agents[current_agent]
-        @user_agents[current_agent].push line.gsub("Disallow:", "").strip
+      if line.match(/^user agent:/i) || line.match(/^user-agent:/i)
+        current_agent = line[line.index(":") + 1, line.length].strip
+      elsif line.match(/^disallow:/i)
+        @user_agents[current_agent] = Array.new if @user_agents[current_agent] == nil
+        @user_agents[current_agent].push line.gsub(/^disallow:/i, "").strip
+      elsif line.match(/^sitemap:/i)
+        @sitemaps.push line.gsub(/^sitemap:/i, "").strip
       end
     end
 
@@ -43,6 +45,14 @@ class RobotsTxtParser
       @user_agents.each do |agent, records|
         @user_agents[agent] = records + @user_agents['*']
       end
+    end
+  end
+
+  def user_agent(agent)
+    unless @user_agents[agent] == nil
+      return @user_agents[agent]
+    else
+      return @user_agents["*"]
     end
   end
 end
